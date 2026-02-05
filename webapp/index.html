@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Telegram Parser</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <link rel="stylesheet" href="style.css?,v=155">
+</head>
+
+<body>
+
+<div class="snow-bg"></div>
+
+<div class="page">
+    <div class="app">
+
+        <button class="snow-icon active" onclick="toggleSnow()">❄️</button>
+
+        <h1>📊 Telegram Parser</h1>
+        <p class="subtitle">Вставь ссылку на канал</p>
+
+        <div id="error" class="error"></div>
+
+        <input id="link" type="text" placeholder="https://t.me/channel">
+
+        <button class="glow-btn shimmer" onclick="sendLink()">
+            🚀 Начать парсинг
+        </button>
+
+        <div id="result" class="hint"></div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+.env
+*.session
+parsed_data/
+__pycache__/
+.idea/
