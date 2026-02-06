@@ -10,29 +10,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <link rel="stylesheet" href="style.css?,v=190">
+    <link rel="stylesheet" href="style.css?v=191">
 </head>
 
 <body>
 
+<!-- ❄️ СНЕГ -->
 <div class="snow-bg"></div>
 
 <div class="page">
     <div class="app">
 
-        <button class="snow-icon active" onclick="toggleSnow()">❄️</button>
+        <!-- ❄️ КНОПКА СНЕГА -->
+        <button class="snow-icon active" onclick="toggleSnow()" title="Снег">
+            ❄️
+        </button>
 
         <h1>📊 Telegram Parser</h1>
-        <p class="subtitle">Вставь ссылку на Telegram-канал</p>
+        <p class="subtitle">Вставь ссылку на Telegram-канал или чат</p>
 
         <div id="error" class="error"></div>
 
         <input id="link" type="text" placeholder="https://t.me/channel">
-
-        <div class="formats">
-            <button class="nav-btn active" data-format="txt">TXT</button>
-            <button class="nav-btn" data-format="csv">CSV</button>
-        </div>
 
         <button class="glow-btn shimmer" onclick="sendLink()">
             🚀 Начать парсинг
@@ -50,6 +49,6 @@
     <button class="nav-btn">Задачи</button>
 </div>
 
-<script src="app.js"></script>
+<script src="app.js?v=final"></script>
 </body>
 </html>
