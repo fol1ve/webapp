@@ -1,55 +1,58 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Telegram Parser</title>
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+/* ❄️ СНЕГ */
+const snowContainer = document.querySelector(".snow-bg");
+const snowIcon = document.querySelector(".snow-icon");
+let snowEnabled = true;
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+function spawnSnowflake() {
+    if (!snowEnabled) return;
+    const flake = document.createElement("div");
+    flake.className = "snowflake";
+    flake.style.left = Math.random() * 100 + "vw";
+    snowContainer.appendChild(flake);
+    setTimeout(() => flake.remove(), 12000);
+}
+setInterval(spawnSnowflake, 220);
 
-    <link rel="stylesheet" href="style.css?,v=181">
-</head>
+function toggleSnow() {
+    snowEnabled = !snowEnabled;
+    snowContainer.style.display = snowEnabled ? "block" : "none";
+    snowIcon.classList.toggle("active", snowEnabled);
+}
 
-<body>
+/* 🔘 ВЫБОР ФОРМАТОВ */
+const formats = {
+    users_txt: true,
+    users_csv: false,
+    chat_info: false
+};
 
-<div class="snow-bg"></div>
+document.querySelectorAll(".format-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const type = btn.dataset.type;
+        formats[type] = !formats[type];
+        btn.classList.toggle("active", formats[type]);
+    });
+});
 
-<div class="page">
-    <div class="app">
+/* 🚀 ОТПРАВКА */
+function sendLink() {
+    const link = document.getElementById("link").value.trim();
+    const error = document.getElementById("error");
+    error.textContent = "";
 
-        <button class="snow-icon active" onclick="toggleSnow()">❄️</button>
+    if (!link.includes("t.me/")) {
+        error.textContent = "❌ Введите корректную ссылку Telegram";
+        return;
+    }
 
-        <h1>📊 Telegram Parser</h1>
-        <p class="subtitle">Вставь ссылку на Telegram-канал или чат</p>
-
-        <div id="error" class="error"></div>
-
-        <input id="link" type="text" placeholder="https://t.me/channel">
-
-        <!-- 🔘 ФОРМАТЫ -->
-        <div class="formats">
-            <button class="format-btn active" data-type="users_txt">
-                TXT — юзеры
-            </button>
-            <button class="format-btn" data-type="users_csv">
-                CSV — юзеры
-            </button>
-            <button class="format-btn" data-type="chat_info">
-                TXT — инфо чата
-            </button>
-        </div>
-
-        <button class="glow-btn shimmer" onclick="sendLink()">
-            🚀 Начать парсинг
-        </button>
-
-        <div class="hint">Ты должен быть администратором чата</div>
-    </div>
-</div>
-
-<script src="app.js"></script>
-</body>
-</html>
+    tg.sendData(JSON.stringify({
+        link: link,
+        users_txt: formats.users_txt,
+        users_csv: formats.users_csv,
+        chat_info: formats.chat_info
+    }));
+}
