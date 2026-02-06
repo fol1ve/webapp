@@ -10,21 +10,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <link rel="stylesheet" href="style.css?v=180">
+    <link rel="stylesheet" href="style.css?,v=181">
 </head>
 
 <body>
 
-<!-- ❄️ СНЕГ -->
 <div class="snow-bg"></div>
 
 <div class="page">
     <div class="app">
 
-        <!-- ❄️ КНОПКА СНЕГА -->
-        <button class="snow-icon active" onclick="toggleSnow()" title="Снег">
-            ❄️
-        </button>
+        <button class="snow-icon active" onclick="toggleSnow()">❄️</button>
 
         <h1>📊 Telegram Parser</h1>
         <p class="subtitle">Вставь ссылку на Telegram-канал или чат</p>
@@ -33,22 +29,27 @@
 
         <input id="link" type="text" placeholder="https://t.me/channel">
 
+        <!-- 🔘 ФОРМАТЫ -->
+        <div class="formats">
+            <button class="format-btn active" data-type="users_txt">
+                TXT — юзеры
+            </button>
+            <button class="format-btn" data-type="users_csv">
+                CSV — юзеры
+            </button>
+            <button class="format-btn" data-type="chat_info">
+                TXT — инфо чата
+            </button>
+        </div>
+
         <button class="glow-btn shimmer" onclick="sendLink()">
             🚀 Начать парсинг
         </button>
 
-        <div class="hint">Ты должен быть администратором канала</div>
+        <div class="hint">Ты должен быть администратором чата</div>
     </div>
 </div>
 
-<div class="bottom-bar">
-    <button class="nav-btn active shimmer">Чаты</button>
-    <button class="nav-btn">Каналы</button>
-    <button class="nav-btn">Поиск</button>
-    <button class="nav-btn">Фильтр</button>
-    <button class="nav-btn">Задачи</button>
-</div>
-
-<script src="app.js?v=final"></script>
+<script src="app.js"></script>
 </body>
 </html>
