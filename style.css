@@ -248,3 +248,27 @@ input:focus {
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
+
+/* 🔘 ФОРМАТЫ */
+.formats {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.format-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.12);
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.format-btn.active {
+    background: linear-gradient(135deg,#2ea6ff,#5b7cff);
+}
+
