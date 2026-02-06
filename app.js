@@ -1,69 +1,55 @@
-const tg = window.Telegram.WebApp;
-tg.ready();
-tg.expand();
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Telegram Parser</title>
 
-const snowContainer = document.querySelector(".snow-bg");
-const snowIcon = document.querySelector(".snow-icon");
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 
-let snowEnabled = true;
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-/* ❄️ СОЗДАНИЕ СНЕЖИНКИ */
-function spawnSnowflake() {
-    if (!snowEnabled) return;
+    <link rel="stylesheet" href="style.css?,v=181">
+</head>
 
-    const flake = document.createElement("div");
-    flake.className = "snowflake";
+<body>
 
-    const size = 4 + Math.random() * 6;
-    const duration = 12 + Math.random() * 10;
-    const opacity = 0.25 + Math.random() * 0.4;
-    const blur = Math.random() * 1.5;
-    const sway = (Math.random() * 40 - 20) + "px";
+<div class="snow-bg"></div>
 
-    flake.style.left = Math.random() * 100 + "vw";
-    flake.style.setProperty("--size", size + "px");
-    flake.style.setProperty("--opacity", opacity);
-    flake.style.setProperty("--blur", blur + "px");
-    flake.style.setProperty("--sway", sway);
-    flake.style.animationDuration =
-        duration + "s, " + (4 + Math.random() * 4) + "s";
+<div class="page">
+    <div class="app">
 
-    snowContainer.appendChild(flake);
+        <button class="snow-icon active" onclick="toggleSnow()">❄️</button>
 
-    setTimeout(() => flake.remove(), duration * 1000);
-}
+        <h1>📊 Telegram Parser</h1>
+        <p class="subtitle">Вставь ссылку на Telegram-канал или чат</p>
 
-/* ❄️ ИНТЕРВАЛ */
-setInterval(spawnSnowflake, 220);
+        <div id="error" class="error"></div>
 
-/* ❄️ ВКЛ / ВЫКЛ СНЕГА (ИКОНКА) */
-function toggleSnow() {
-    snowEnabled = !snowEnabled;
+        <input id="link" type="text" placeholder="https://t.me/channel">
 
-    snowContainer.style.display = snowEnabled ? "block" : "none";
+        <!-- 🔘 ФОРМАТЫ -->
+        <div class="formats">
+            <button class="format-btn active" data-type="users_txt">
+                TXT — юзеры
+            </button>
+            <button class="format-btn" data-type="users_csv">
+                CSV — юзеры
+            </button>
+            <button class="format-btn" data-type="chat_info">
+                TXT — инфо чата
+            </button>
+        </div>
 
-    if (snowIcon) {
-        snowIcon.classList.toggle("active", snowEnabled);
-    }
+        <button class="glow-btn shimmer" onclick="sendLink()">
+            🚀 Начать парсинг
+        </button>
 
-    // лёгкий haptic на мобиле (если поддерживается)
-    if (tg.HapticFeedback) {
-        tg.HapticFeedback.impactOccurred("light");
-    }
-}
+        <div class="hint">Ты должен быть администратором чата</div>
+    </div>
+</div>
 
-/* 🚀 ОТПРАВКА ССЫЛКИ */
-function sendLink() {
-    const linkInput = document.getElementById("link");
-    const error = document.getElementById("error");
-
-    const link = linkInput.value.trim();
-    error.textContent = "";
-
-    if (!link.includes("t.me/")) {
-        error.textContent = "❌ Введите корректную ссылку Telegram";
-        return;
-    }
-
-    tg.sendData(link);
-}
+<script src="app.js"></script>
+</body>
+</html>
