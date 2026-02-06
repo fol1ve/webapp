@@ -1,72 +1,59 @@
-const tg = window.Telegram.WebApp;
-tg.ready();
-tg.expand();
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Telegram Parser</title>
 
-/* ❄️ СНЕГ */
-const snowContainer = document.querySelector(".snow-bg");
-const snowIcon = document.querySelector(".snow-icon");
-let snowEnabled = true;
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 
-function spawnSnowflake() {
-    if (!snowEnabled) return;
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    const flake = document.createElement("div");
-    flake.className = "snowflake";
+    <link rel="stylesheet" href="style.css?,v=186">
+</head>
 
-    const size = 4 + Math.random() * 6;
-    const duration = 12 + Math.random() * 10;
-    const opacity = 0.25 + Math.random() * 0.4;
-    const blur = Math.random() * 1.5;
-    const sway = (Math.random() * 40 - 20) + "px";
+<body>
 
-    flake.style.left = Math.random() * 100 + "vw";
-    flake.style.setProperty("--size", size + "px");
-    flake.style.setProperty("--opacity", opacity);
-    flake.style.setProperty("--blur", blur + "px");
-    flake.style.setProperty("--sway", sway);
-    flake.style.animationDuration =
-        duration + "s, " + (4 + Math.random() * 4) + "s";
+<!-- ❄️ СНЕГ -->
+<div class="snow-bg"></div>
 
-    snowContainer.appendChild(flake);
-    setTimeout(() => flake.remove(), duration * 1000);
-}
+<div class="page">
+    <div class="app">
 
-setInterval(spawnSnowflake, 220);
+        <!-- ❄️ КНОПКА СНЕГА -->
+        <button class="snow-icon active" onclick="toggleSnow()">❄️</button>
 
-function toggleSnow() {
-    snowEnabled = !snowEnabled;
-    snowContainer.style.display = snowEnabled ? "block" : "none";
-    if (snowIcon) snowIcon.classList.toggle("active", snowEnabled);
-}
+        <h1>📊 Telegram Parser</h1>
+        <p class="subtitle">Вставь ссылку на Telegram-канал</p>
 
-/* 🔘 ФОРМАТ СОХРАНЕНИЯ */
-let selectedFormat = "txt_users";
+        <div id="error" class="error"></div>
 
-document.querySelectorAll(".formats .nav-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-        document.querySelectorAll(".formats .nav-btn")
-            .forEach(b => b.classList.remove("active"));
+        <input id="link" type="text" placeholder="https://t.me/channel">
 
-        btn.classList.add("active");
-        selectedFormat = btn.dataset.format;
-    });
-});
+        <!-- ФОРМАТЫ -->
+        <div class="formats">
+            <button class="nav-btn active" data-format="txt">TXT</button>
+            <button class="nav-btn" data-format="csv">CSV</button>
+        </div>
 
-/* 🚀 ОТПРАВКА */
-function sendLink() {
-    const linkInput = document.getElementById("link");
-    const error = document.getElementById("error");
+        <button class="glow-btn shimmer" onclick="sendLink()">
+            🚀 Начать парсинг
+        </button>
 
-    const link = linkInput.value.trim();
-    error.textContent = "";
+        <div class="hint">Ты должен быть администратором канала</div>
+    </div>
+</div>
 
-    if (!link.includes("t.me/")) {
-        error.textContent = "❌ Введите корректную ссылку Telegram";
-        return;
-    }
+<!-- ⬇️ НИЖНЯЯ ПАНЕЛЬ -->
+<div class="bottom-bar">
+    <button class="nav-btn active shimmer">Чаты</button>
+    <button class="nav-btn">Каналы</button>
+    <button class="nav-btn">Поиск</button>
+    <button class="nav-btn">Фильтр</button>
+    <button class="nav-btn">Задачи</button>
+</div>
 
-    tg.sendData(JSON.stringify({
-        link: link,
-        format: selectedFormat
-    }));
-}
+<script src="app.js"></script>
+</body>
+</html>
