@@ -1,250 +1,72 @@
-:root {
-    --text: #fff;
-    --hint: rgba(255,255,255,.6);
-    --border: rgba(255,255,255,.18);
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+/* ❄️ СНЕГ */
+const snowContainer = document.querySelector(".snow-bg");
+const snowIcon = document.querySelector(".snow-icon");
+let snowEnabled = true;
+
+function spawnSnowflake() {
+    if (!snowEnabled) return;
+
+    const flake = document.createElement("div");
+    flake.className = "snowflake";
+
+    const size = 4 + Math.random() * 6;
+    const duration = 12 + Math.random() * 10;
+    const opacity = 0.25 + Math.random() * 0.4;
+    const blur = Math.random() * 1.5;
+    const sway = (Math.random() * 40 - 20) + "px";
+
+    flake.style.left = Math.random() * 100 + "vw";
+    flake.style.setProperty("--size", size + "px");
+    flake.style.setProperty("--opacity", opacity);
+    flake.style.setProperty("--blur", blur + "px");
+    flake.style.setProperty("--sway", sway);
+    flake.style.animationDuration =
+        duration + "s, " + (4 + Math.random() * 4) + "s";
+
+    snowContainer.appendChild(flake);
+    setTimeout(() => flake.remove(), duration * 1000);
 }
 
-* {
-    box-sizing: border-box;
+setInterval(spawnSnowflake, 220);
+
+function toggleSnow() {
+    snowEnabled = !snowEnabled;
+    snowContainer.style.display = snowEnabled ? "block" : "none";
+    if (snowIcon) snowIcon.classList.toggle("active", snowEnabled);
 }
 
-/* BODY */
-body {
-    margin: 0;
-    font-family: Inter, system-ui, sans-serif;
-    color: var(--text);
-    background: linear-gradient(120deg,#2b1055,#1e3c72,#2b1055);
-    background-size: 200% 200%;
-    animation: bg 18s ease infinite;
-}
+/* 🔘 ФОРМАТ СОХРАНЕНИЯ */
+let selectedFormat = "txt_users";
 
-/* ❄️ СНЕГ ФОН */
-.snow-bg {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    overflow: hidden;
-}
+document.querySelectorAll(".formats .nav-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelectorAll(".formats .nav-btn")
+            .forEach(b => b.classList.remove("active"));
 
-/* ❄️ СНЕЖИНКА */
-.snowflake {
-    position: absolute;
-    top: -20px;
-    width: var(--size);
-    height: var(--size);
-    background: rgba(255,255,255,var(--opacity));
-    border-radius: 50%;
-    filter: blur(var(--blur));
-    animation:
-        fall linear forwards,
-        sway ease-in-out infinite;
-}
+        btn.classList.add("active");
+        selectedFormat = btn.dataset.format;
+    });
+});
 
-/* ПАДЕНИЕ */
-@keyframes fall {
-    to {
-        transform: translateY(120vh);
+/* 🚀 ОТПРАВКА */
+function sendLink() {
+    const linkInput = document.getElementById("link");
+    const error = document.getElementById("error");
+
+    const link = linkInput.value.trim();
+    error.textContent = "";
+
+    if (!link.includes("t.me/")) {
+        error.textContent = "❌ Введите корректную ссылку Telegram";
+        return;
     }
-}
 
-/* ПОКАЧИВАНИЕ */
-@keyframes sway {
-    0% { margin-left: 0; }
-    50% { margin-left: var(--sway); }
-    100% { margin-left: 0; }
-}
-
-/* PAGE */
-.page {
-    position: relative;
-    z-index: 3;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    padding: 32px 16px 150px;
-}
-
-/* CARD */
-.app {
-    position: relative;
-    width: 100%;
-    max-width: 420px;
-    padding: 28px 22px 28px;
-    border-radius: 22px;
-    background: rgba(255,255,255,.12);
-    border: 1px solid var(--border);
-    backdrop-filter: blur(18px);
-    animation: appear .4s ease;
-}
-
-@keyframes appear {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-    to {
-        opacity: 1;
-        transform: none;
-    }
-}
-
-/* ❄️ ИКОНКА СНЕГА */
-.snow-icon {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-
-    width: 34px;
-    height: 34px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: rgba(255,255,255,.15);
-
-    font-size: 16px;
-    line-height: 1;
-
-    color: #fff;
-    cursor: pointer;
-    opacity: .85;
-
-    transition: transform .15s ease, opacity .15s ease;
-}
-
-.snow-icon:hover {
-    opacity: 1;
-    transform: scale(1.05);
-}
-
-.snow-icon:not(.active) {
-    opacity: .4;
-}
-
-/* TEXT */
-h1 {
-    font-size: 26px;
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 6px;
-}
-
-.subtitle {
-    text-align: center;
-    font-size: 14px;
-    color: var(--hint);
-    margin-bottom: 18px;
-}
-
-.hint {
-    text-align: center;
-    font-size: 13px;
-    color: var(--hint);
-    margin-top: 14px;
-}
-
-.error {
-    text-align: center;
-    color: #ff9b9b;
-    margin-bottom: 10px;
-}
-
-/* INPUT */
-input {
-    width: 100%;
-    padding: 15px;
-    border-radius: 14px;
-    border: 1px solid var(--border);
-    background: rgba(0,0,0,.4);
-    color: #fff;
-    font-size: 15px;
-}
-
-input::placeholder {
-    color: rgba(255,255,255,.45);
-}
-
-input:focus {
-    outline: none;
-    background: rgba(0,0,0,.55);
-}
-
-/* ✨ SHIMMER */
-.shimmer {
-    position: relative;
-    overflow: hidden;
-}
-
-.shimmer::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        120deg,
-        transparent 30%,
-        rgba(255,255,255,.35),
-        transparent 70%
-    );
-    transform: translateX(-100%);
-    animation: shimmer 2.8s infinite;
-}
-
-@keyframes shimmer {
-    100% {
-        transform: translateX(100%);
-    }
-}
-
-/* MAIN BUTTON */
-.glow-btn {
-    margin-top: 16px;
-    width: 100%;
-    padding: 15px;
-    border-radius: 16px;
-    border: none;
-    font-weight: 600;
-    font-size: 15px;
-    background: linear-gradient(135deg,#2ea6ff,#5b7cff,#ff7ad9);
-    color: #fff;
-    cursor: pointer;
-}
-
-/* BOTTOM BAR */
-.bottom-bar {
-    position: fixed;
-    left: 50%;
-    bottom: 16px;
-    transform: translateX(-50%);
-    z-index: 5;
-    display: flex;
-    gap: 6px;
-    padding: 8px;
-    border-radius: 22px;
-    background: rgba(255,255,255,.18);
-    backdrop-filter: blur(20px);
-}
-
-.nav-btn {
-    padding: 10px 14px;
-    border-radius: 14px;
-    background: none;
-    border: none;
-    color: var(--hint);
-    cursor: pointer;
-}
-
-.nav-btn.active {
-    color: #fff;
-    background: linear-gradient(135deg,#2ea6ff,#5b7cff);
-}
-
-/* BACKGROUND ANIMATION */
-@keyframes bg {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    tg.sendData(JSON.stringify({
+        link: link,
+        format: selectedFormat
+    }));
 }
