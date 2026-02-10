@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <link rel="stylesheet" href="style.css?v=191">
+    <link rel="stylesheet" href="style.css?v=194">
 </head>
 
 <body>
@@ -27,7 +27,21 @@
         </button>
 
         <h1>📊 Telegram Parser</h1>
-        <p class="subtitle">Вставь ссылку на Telegram-канал или чат</p>
+        <p class="subtitle">Выбери режим и вставь ссылку</p>
+
+        <!-- 🔄 ВЫБОР РЕЖИМА -->
+        <div class="mode-selector">
+            <button class="mode-btn active" id="mode-participants" onclick="setMode('participants')">
+                <span class="mode-icon">👥</span>
+                <span class="mode-text">Участники</span>
+                <span class="mode-desc">Все участники канала</span>
+            </button>
+            <button class="mode-btn" id="mode-commentators" onclick="setMode('commentators')">
+                <span class="mode-icon">💬</span>
+                <span class="mode-text">Комментаторы</span>
+                <span class="mode-desc">Активные из комментов</span>
+            </button>
+        </div>
 
         <div id="error" class="error"></div>
 
@@ -37,7 +51,7 @@
             🚀 Начать парсинг
         </button>
 
-        <div class="hint">Ты должен быть администратором канала</div>
+        <div class="hint" id="hint-text">Ты должен быть администратором канала для парсинга участников</div>
     </div>
 </div>
 
@@ -49,6 +63,6 @@
     <button class="nav-btn">Задачи</button>
 </div>
 
-<script src="app.js?v=final"></script>
+<script src="app.js?v=final2"></script>
 </body>
 </html>
