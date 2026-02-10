@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <link rel="stylesheet" href="style.css?v=196">
+    <link rel="stylesheet" href="style.css?v=197">
 </head>
 
 <body>
@@ -43,6 +43,28 @@
             </button>
         </div>
 
+        <!-- 📁 ВЫБОР ФОРМАТА ФАЙЛА -->
+        <div class="format-section">
+            <p class="format-label">📁 Формат выгрузки:</p>
+            <div class="format-selector">
+                <label class="format-checkbox">
+                    <input type="checkbox" id="format-csv" checked onchange="updateFormatSelection()">
+                    <span class="checkmark"></span>
+                    <span class="format-name">CSV</span>
+                </label>
+                <label class="format-checkbox">
+                    <input type="checkbox" id="format-txt" checked onchange="updateFormatSelection()">
+                    <span class="checkmark"></span>
+                    <span class="format-name">TXT</span>
+                </label>
+                <label class="format-checkbox">
+                    <input type="checkbox" id="format-json" onchange="updateFormatSelection()">
+                    <span class="checkmark"></span>
+                    <span class="format-name">JSON</span>
+                </label>
+            </div>
+        </div>
+
         <div id="error" class="error"></div>
 
         <input id="link" type="text" placeholder="https://t.me/channel">
@@ -63,6 +85,6 @@
     <button class="nav-btn">Задачи</button>
 </div>
 
-<script src="app.js?v=final2"></script>
+<script src="app.js?v=final3"></script>
 </body>
 </html>
