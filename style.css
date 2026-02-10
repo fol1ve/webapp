@@ -159,7 +159,7 @@ h1 {
 /* 🔄 СЕЛЕКТОР РЕЖИМА — ВЕРТИКАЛЬНОЕ РАСПОЛОЖЕНИЕ */
 .mode-selector {
     display: flex;
-    flex-direction: row; /* Горизонтально на десктопе */
+    flex-direction: row;
     gap: 10px;
     margin-bottom: 20px;
 }
@@ -167,7 +167,7 @@ h1 {
 .mode-btn {
     flex: 1;
     display: flex;
-    flex-direction: column; /* ВЕРТИКАЛЬНО: иконка сверху, текст снизу */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 16px 10px;
@@ -197,8 +197,8 @@ h1 {
 }
 
 .mode-icon {
-    font-size: 28px; /* Увеличил размер иконки */
-    margin-bottom: 8px; /* Отступ между иконкой и текстом */
+    font-size: 28px;
+    margin-bottom: 8px;
     transition: transform .2s ease;
     line-height: 1;
 }
@@ -215,6 +215,100 @@ h1 {
     opacity: 0.7;
     text-align: center;
     line-height: 1.3;
+}
+
+/* 📁 СЕКЦИЯ ВЫБОРА ФОРМАТА */
+.format-section {
+    margin-bottom: 20px;
+    padding: 16px;
+    border-radius: 16px;
+    background: rgba(0,0,0,.2);
+    border: 1px solid var(--border);
+}
+
+.format-label {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    text-align: center;
+}
+
+.format-selector {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Кастомный чекбокс */
+.format-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.1);
+    border: 2px solid transparent;
+    transition: all .2s ease;
+    user-select: none;
+}
+
+.format-checkbox:hover {
+    background: rgba(255,255,255,.15);
+}
+
+.format-checkbox input {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--hint);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .2s ease;
+    position: relative;
+}
+
+.checkmark::after {
+    content: "✓";
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    opacity: 0;
+    transform: scale(0);
+    transition: all .2s ease;
+}
+
+.format-checkbox input:checked ~ .checkmark {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.format-checkbox input:checked ~ .checkmark::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.format-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--hint);
+    transition: color .2s ease;
+}
+
+.format-checkbox input:checked ~ .format-name {
+    color: #fff;
+}
+
+.format-checkbox:has(input:checked) {
+    background: rgba(46,166,255,.2);
+    border-color: var(--accent);
 }
 
 /* INPUT */
@@ -288,6 +382,12 @@ input:focus {
     transform: translateY(0);
 }
 
+.glow-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
 /* BOTTOM BAR */
 .bottom-bar {
     position: fixed;
@@ -332,76 +432,98 @@ input:focus {
 
 /* ======== АДАПТИВНОСТЬ ======== */
 
-/* На всех мобильных устройствах — ВЕРТИКАЛЬНОЕ расположение */
 @media screen and (max-width: 768px) {
     .mode-selector {
-        flex-direction: row; /* Оставляем горизонтально, но кнопки вертикальные внутри */
+        flex-direction: row;
     }
-    
+
     .mode-btn {
-        flex-direction: column; /* ВЕРТИКАЛЬНО внутри кнопки */
+        flex-direction: column;
         padding: 14px 8px;
         min-height: 85px;
     }
-    
+
     .mode-icon {
         font-size: 26px;
         margin-bottom: 6px;
-        margin-right: 0; /* Убираем горизонтальный отступ */
+        margin-right: 0;
     }
-    
+
     .mode-text {
         font-size: 13px;
     }
-    
+
     .mode-desc {
         font-size: 10px;
     }
+
+    .format-selector {
+        gap: 8px;
+    }
+
+    .format-checkbox {
+        padding: 6px 10px;
+    }
 }
 
-/* На очень маленьких экранах */
 @media screen and (max-width: 380px) {
     .mode-selector {
         flex-direction: row;
         gap: 8px;
     }
-    
+
     .mode-btn {
         padding: 12px 6px;
         min-height: 80px;
     }
-    
+
     .mode-icon {
         font-size: 24px;
         margin-bottom: 4px;
     }
-    
+
     .mode-text {
         font-size: 12px;
         margin-bottom: 2px;
     }
-    
+
     .mode-desc {
         font-size: 9px;
         line-height: 1.2;
     }
+
+    .format-section {
+        padding: 12px;
+    }
+
+    .format-name {
+        font-size: 12px;
+    }
 }
 
-/* На самых маленьких экранах — если нужно, можно сделать вертикально */
 @media screen and (max-width: 320px) {
     .mode-selector {
-        flex-direction: column; /* Только на совсем маленьких — вертикально */
+        flex-direction: column;
     }
-    
+
     .mode-btn {
-        flex-direction: row; /* Горизонтально внутри для экономии места */
+        flex-direction: row;
         justify-content: flex-start;
         padding: 12px;
         min-height: auto;
     }
-    
+
     .mode-icon {
         margin-bottom: 0;
         margin-right: 10px;
+    }
+
+    .format-selector {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .format-checkbox {
+        justify-content: center;
     }
 }
