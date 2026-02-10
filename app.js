@@ -6,6 +6,7 @@ const snowContainer = document.querySelector(".snow-bg");
 const snowIcon = document.querySelector(".snow-icon");
 
 let snowEnabled = true;
+let currentMode = 'participants'; // 'participants' или 'commentators'
 
 /* ❄️ СОЗДАНИЕ СНЕЖИНКИ */
 function spawnSnowflake() {
@@ -52,6 +53,30 @@ function toggleSnow() {
     }
 }
 
+/* 🔄 УСТАНОВКА РЕЖИМА */
+function setMode(mode) {
+    currentMode = mode;
+
+    // Обновляем UI
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.getElementById(`mode-${mode}`).classList.add('active');
+
+    // Обновляем подсказку
+    const hintText = document.getElementById('hint-text');
+    if (mode === 'participants') {
+        hintText.textContent = 'Ты должен быть администратором канала для парсинга участников';
+    } else {
+        hintText.textContent = 'Собирает активных пользователей из комментариев и сообщений';
+    }
+
+    // Haptic feedback
+    if (tg.HapticFeedback) {
+        tg.HapticFeedback.selectionChanged();
+    }
+}
+
 /* 🚀 ОТПРАВКА ССЫЛКИ */
 function sendLink() {
     const linkInput = document.getElementById("link");
@@ -65,5 +90,17 @@ function sendLink() {
         return;
     }
 
-    tg.sendData(link);
+    // Формируем JSON с данными
+    const data = {
+        link: link,
+        mode: currentMode
+    };
+
+    tg.sendData(JSON.stringify(data));
 }
+
+// Инициализация
+document.addEventListener('DOMContentLoaded', function() {
+    // Устанавливаем начальный режим
+    setMode('participants');
+});
