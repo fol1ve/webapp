@@ -6,7 +6,8 @@ const snowContainer = document.querySelector(".snow-bg");
 const snowIcon = document.querySelector(".snow-icon");
 
 let snowEnabled = true;
-let currentMode = 'participants'; // 'participants' или 'commentators'
+let currentMode = 'participants';
+let selectedFormats = ['csv', 'txt'];
 
 /* ❄️ СОЗДАНИЕ СНЕЖИНКИ */
 function spawnSnowflake() {
@@ -47,7 +48,6 @@ function toggleSnow() {
         snowIcon.classList.toggle("active", snowEnabled);
     }
 
-    // лёгкий haptic на мобиле (если поддерживается)
     if (tg.HapticFeedback) {
         tg.HapticFeedback.impactOccurred("light");
     }
@@ -57,13 +57,11 @@ function toggleSnow() {
 function setMode(mode) {
     currentMode = mode;
 
-    // Обновляем UI
     document.querySelectorAll('.mode-btn').forEach(btn => {
         btn.classList.remove('active');
     });
     document.getElementById(`mode-${mode}`).classList.add('active');
 
-    // Обновляем подсказку
     const hintText = document.getElementById('hint-text');
     if (mode === 'participants') {
         hintText.textContent = 'Ты должен быть администратором канала для парсинга участников';
@@ -71,7 +69,32 @@ function setMode(mode) {
         hintText.textContent = 'Собирает активных пользователей из комментариев и сообщений';
     }
 
-    // Haptic feedback
+    if (tg.HapticFeedback) {
+        tg.HapticFeedback.selectionChanged();
+    }
+}
+
+/* 📁 ОБНОВЛЕНИЕ ВЫБОРА ФОРМАТОВ */
+function updateFormatSelection() {
+    const csvChecked = document.getElementById('format-csv').checked;
+    const txtChecked = document.getElementById('format-txt').checked;
+    const jsonChecked = document.getElementById('format-json').checked;
+
+    selectedFormats = [];
+    if (csvChecked) selectedFormats.push('csv');
+    if (txtChecked) selectedFormats.push('txt');
+    if (jsonChecked) selectedFormats.push('json');
+
+    // Хотя бы один формат должен быть выбран
+    const btn = document.querySelector('.glow-btn');
+    if (selectedFormats.length === 0) {
+        btn.disabled = true;
+        btn.textContent = '⚠️ Выберите формат файла';
+    } else {
+        btn.disabled = false;
+        btn.textContent = '🚀 Начать парсинг';
+    }
+
     if (tg.HapticFeedback) {
         tg.HapticFeedback.selectionChanged();
     }
@@ -90,10 +113,16 @@ function sendLink() {
         return;
     }
 
+    if (selectedFormats.length === 0) {
+        error.textContent = "❌ Выберите хотя бы один формат файла";
+        return;
+    }
+
     // Формируем JSON с данными
     const data = {
         link: link,
-        mode: currentMode
+        mode: currentMode,
+        formats: selectedFormats
     };
 
     tg.sendData(JSON.stringify(data));
@@ -101,6 +130,6 @@ function sendLink() {
 
 // Инициализация
 document.addEventListener('DOMContentLoaded', function() {
-    // Устанавливаем начальный режим
     setMode('participants');
+    updateFormatSelection();
 });
