@@ -156,9 +156,10 @@ h1 {
     margin-bottom: 10px;
 }
 
-/* 🔄 СЕЛЕКТОР РЕЖИМА */
+/* 🔄 СЕЛЕКТОР РЕЖИМА — ВЕРТИКАЛЬНОЕ РАСПОЛОЖЕНИЕ */
 .mode-selector {
     display: flex;
+    flex-direction: row; /* Горизонтально на десктопе */
     gap: 10px;
     margin-bottom: 20px;
 }
@@ -166,8 +167,9 @@ h1 {
 .mode-btn {
     flex: 1;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* ВЕРТИКАЛЬНО: иконка сверху, текст снизу */
     align-items: center;
+    justify-content: center;
     padding: 16px 10px;
     border-radius: 16px;
     border: 2px solid var(--border);
@@ -175,6 +177,8 @@ h1 {
     color: var(--hint);
     cursor: pointer;
     transition: all .2s ease;
+    text-align: center;
+    min-height: 90px;
 }
 
 .mode-btn:hover {
@@ -193,15 +197,17 @@ h1 {
 }
 
 .mode-icon {
-    font-size: 24px;
-    margin-bottom: 6px;
+    font-size: 28px; /* Увеличил размер иконки */
+    margin-bottom: 8px; /* Отступ между иконкой и текстом */
     transition: transform .2s ease;
+    line-height: 1;
 }
 
 .mode-text {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     margin-bottom: 4px;
+    line-height: 1.2;
 }
 
 .mode-desc {
@@ -324,27 +330,78 @@ input:focus {
     100% { background-position: 0% 50%; }
 }
 
-/* Адаптивность */
-@media (max-width: 380px) {
+/* ======== АДАПТИВНОСТЬ ======== */
+
+/* На всех мобильных устройствах — ВЕРТИКАЛЬНОЕ расположение */
+@media screen and (max-width: 768px) {
     .mode-selector {
-        flex-direction: column;
+        flex-direction: row; /* Оставляем горизонтально, но кнопки вертикальные внутри */
     }
-
+    
     .mode-btn {
-        flex-direction: row;
-        padding: 12px;
-        gap: 10px;
+        flex-direction: column; /* ВЕРТИКАЛЬНО внутри кнопки */
+        padding: 14px 8px;
+        min-height: 85px;
     }
+    
+    .mode-icon {
+        font-size: 26px;
+        margin-bottom: 6px;
+        margin-right: 0; /* Убираем горизонтальный отступ */
+    }
+    
+    .mode-text {
+        font-size: 13px;
+    }
+    
+    .mode-desc {
+        font-size: 10px;
+    }
+}
 
+/* На очень маленьких экранах */
+@media screen and (max-width: 380px) {
+    .mode-selector {
+        flex-direction: row;
+        gap: 8px;
+    }
+    
+    .mode-btn {
+        padding: 12px 6px;
+        min-height: 80px;
+    }
+    
+    .mode-icon {
+        font-size: 24px;
+        margin-bottom: 4px;
+    }
+    
+    .mode-text {
+        font-size: 12px;
+        margin-bottom: 2px;
+    }
+    
+    .mode-desc {
+        font-size: 9px;
+        line-height: 1.2;
+    }
+}
+
+/* На самых маленьких экранах — если нужно, можно сделать вертикально */
+@media screen and (max-width: 320px) {
+    .mode-selector {
+        flex-direction: column; /* Только на совсем маленьких — вертикально */
+    }
+    
+    .mode-btn {
+        flex-direction: row; /* Горизонтально внутри для экономии места */
+        justify-content: flex-start;
+        padding: 12px;
+        min-height: auto;
+    }
+    
     .mode-icon {
         margin-bottom: 0;
-    }
-
-    .mode-text {
-        margin-bottom: 0;
-    }
-
-    .mode-desc {
-        display: none;
+        margin-right: 10px;
     }
 }
