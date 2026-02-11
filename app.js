@@ -57,11 +57,21 @@ function toggleSnow() {
 function setMode(mode) {
     currentMode = mode;
 
-    document.querySelectorAll('.mode-btn').forEach(btn => {
-        btn.classList.remove('active');
+    // Обновляем активную кнопку в нижней панели
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        // Сбрасываем active только у кнопок режимов (первые две)
+        if (btn.id === 'nav-participants' || btn.id === 'nav-commentators') {
+            btn.classList.remove('active');
+        }
     });
-    document.getElementById(`mode-${mode}`).classList.add('active');
 
+    // Устанавливаем active на выбранную кнопку
+    const activeBtn = document.getElementById(`nav-${mode}`);
+    if (activeBtn) {
+        activeBtn.classList.add('active');
+    }
+
+    // Обновляем текст подсказки
     const hintText = document.getElementById('hint-text');
     if (mode === 'participants') {
         hintText.textContent = 'Ты должен быть администратором канала для парсинга участников';
@@ -126,6 +136,20 @@ function sendLink() {
     };
 
     tg.sendData(JSON.stringify(data));
+}
+
+/* ℹ️ ЗАГЛУШКА ДЛЯ НЕАКТИВНЫХ КНОПОК */
+function showComingSoon() {
+    const error = document.getElementById("error");
+    error.textContent = "ℹ️ Эта функция в разработке";
+
+    setTimeout(() => {
+        error.textContent = "";
+    }, 2000);
+
+    if (tg.HapticFeedback) {
+        tg.HapticFeedback.notificationOccurred("warning");
+    }
 }
 
 // Инициализация
