@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <link rel="stylesheet" href="style.css?v=207">
+    <link rel="stylesheet" href="style.css?v=209">
 </head>
 
 <body>
@@ -28,20 +28,6 @@
 
         <h1>📊 Telegram Parser</h1>
         <p class="subtitle">Выбери режим и вставь ссылку</p>
-
-        <!-- 🔄 ВЫБОР РЕЖИМА -->
-        <div class="mode-selector">
-            <button class="mode-btn active" id="mode-participants" onclick="setMode('participants')">
-                <span class="mode-icon">👥</span>
-                <span class="mode-text">Участники</span>
-                <span class="mode-desc">Все участники канала</span>
-            </button>
-            <button class="mode-btn" id="mode-commentators" onclick="setMode('commentators')">
-                <span class="mode-icon">💬</span>
-                <span class="mode-text">Комментаторы</span>
-                <span class="mode-desc">Активные из комментов</span>
-            </button>
-        </div>
 
         <!-- 📁 ВЫБОР ФОРМАТА ФАЙЛА -->
         <div class="format-section">
@@ -77,14 +63,26 @@
     </div>
 </div>
 
+<!-- 🔄 НИЖНЯЯ ПАНЕЛЬ С РЕЖИМАМИ -->
 <div class="bottom-bar">
-    <button class="nav-btn active shimmer">Чаты</button>
-    <button class="nav-btn">Каналы</button>
-    <button class="nav-btn">Поиск</button>
-    <button class="nav-btn">Фильтр</button>
-    <button class="nav-btn">Задачи</button>
+    <button class="nav-btn active" id="nav-participants" onclick="setMode('participants')">
+        <span class="nav-icon">👥</span>
+        <span class="nav-text">Участники</span>
+    </button>
+    <button class="nav-btn" id="nav-commentators" onclick="setMode('commentators')">
+        <span class="nav-icon">💬</span>
+        <span class="nav-text">Комментаторы</span>
+    </button>
+    <button class="nav-btn" onclick="showComingSoon()">
+        <span class="nav-icon">🔍</span>
+        <span class="nav-text">Поиск</span>
+    </button>
+    <button class="nav-btn" onclick="showComingSoon()">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-text">Настройки</span>
+    </button>
 </div>
 
-<script src="app.js?v=final3"></script>
+<script src="app.js?v=final4"></script>
 </body>
 </html>
