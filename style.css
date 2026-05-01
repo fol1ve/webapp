@@ -1,7 +1,7 @@
 :root {
     --text: #fff;
-    --hint: rgba(255,255,255,.7);
-    --border: rgba(255,255,255,.2);
+    --hint: rgba(255,255,255,.75);
+    --border: rgba(255,255,255,.25);
     --accent: #ff9f43;
     --accent2: #ff6b6b;
     --accent3: #feca57;
@@ -11,14 +11,14 @@
     box-sizing: border-box;
 }
 
-/* BODY — летний закат */
+/* BODY — летний градиент */
 body {
     margin: 0;
     font-family: Inter, system-ui, sans-serif;
     color: var(--text);
-    background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
     background-size: 400% 400%;
-    animation: bg 15s ease infinite;
+    animation: bg 20s ease infinite;
     min-height: 100vh;
 }
 
@@ -29,21 +29,22 @@ body {
     pointer-events: none;
     z-index: 1;
     overflow: hidden;
+    display: block;
 }
 
 /* ☀️ ЛУЧИ СОЛНЦА */
 .sun-ray {
     position: absolute;
     border-radius: 50%;
-    filter: blur(40px);
-    opacity: 0.3;
+    filter: blur(60px);
+    opacity: 0.25;
     animation: float ease-in-out infinite;
 }
 
 @keyframes float {
     0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -30px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.9); }
+    33% { transform: translate(40px, -30px) scale(1.15); }
+    66% { transform: translate(-30px, 20px) scale(0.85); }
 }
 
 /* PAGE */
@@ -63,11 +64,12 @@ body {
     max-width: 420px;
     padding: 28px 22px 28px;
     border-radius: 22px;
-    background: rgba(0,0,0,.25);
+    background: rgba(0,0,0,.3);
     border: 1px solid var(--border);
-    backdrop-filter: blur(18px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     animation: appear .4s ease;
-    box-shadow: 0 8px 32px rgba(255, 107, 107, .15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, .2);
 }
 
 @keyframes appear {
@@ -81,34 +83,43 @@ body {
     }
 }
 
-/* ☀️ ИКОНКА СОЛНЦА */
+/* ☀️ КНОПКА ЭФФЕКТОВ */
 .sun-icon {
     position: absolute;
     top: 14px;
     right: 14px;
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     border: 1px solid var(--border);
-    background: rgba(255, 159, 67, .3);
+    background: rgba(255, 159, 67, .25);
     font-size: 18px;
     line-height: 1;
     color: #fff;
     cursor: pointer;
     opacity: .9;
-    transition: transform .15s ease, opacity .15s ease;
+    z-index: 10;
+    transition: all .2s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .sun-icon:hover {
     opacity: 1;
-    transform: scale(1.1) rotate(15deg);
+    transform: scale(1.1);
+    background: rgba(255, 159, 67, .4);
+}
+
+.sun-icon:active {
+    transform: scale(0.95);
 }
 
 .sun-icon:not(.active) {
     opacity: .4;
+    background: rgba(255, 255, 255, .1);
 }
 
 /* TEXT */
@@ -117,10 +128,8 @@ h1 {
     font-weight: 600;
     text-align: center;
     margin-bottom: 6px;
-    background: linear-gradient(135deg, #fff, #feca57);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    margin-top: 8px;
+    color: #fff;
 }
 
 .subtitle {
@@ -141,6 +150,7 @@ h1 {
     text-align: center;
     color: #ff9b9b;
     margin-bottom: 10px;
+    min-height: 20px;
 }
 
 /* 📁 СЕКЦИЯ ВЫБОРА ФОРМАТА */
@@ -199,6 +209,7 @@ h1 {
     justify-content: center;
     transition: all .2s ease;
     position: relative;
+    flex-shrink: 0;
 }
 
 .checkmark::after {
@@ -246,6 +257,7 @@ input {
     background: rgba(0,0,0,.4);
     color: #fff;
     font-size: 15px;
+    outline: none;
 }
 
 input::placeholder {
@@ -253,7 +265,6 @@ input::placeholder {
 }
 
 input:focus {
-    outline: none;
     background: rgba(0,0,0,.55);
     border-color: var(--accent);
 }
@@ -271,7 +282,7 @@ input:focus {
     background: linear-gradient(
         120deg,
         transparent 30%,
-        rgba(255,255,255,.35),
+        rgba(255,255,255,.3),
         transparent 70%
     );
     transform: translateX(-100%);
@@ -284,7 +295,7 @@ input:focus {
     }
 }
 
-/* MAIN BUTTON — летний градиент */
+/* MAIN BUTTON */
 .glow-btn {
     margin-top: 16px;
     width: 100%;
@@ -294,9 +305,12 @@ input:focus {
     font-weight: 600;
     font-size: 15px;
     background: linear-gradient(135deg, #ff9f43, #ff6b6b, #feca57);
+    background-size: 200% 200%;
     color: #fff;
     cursor: pointer;
     transition: transform .15s ease, box-shadow .15s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .glow-btn:hover {
@@ -325,10 +339,12 @@ input:focus {
     gap: 4px;
     padding: 8px;
     border-radius: 24px;
-    background: rgba(255,255,255,.18);
+    background: rgba(255,255,255,.15);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     max-width: calc(100% - 32px);
     width: auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,.1);
 }
 
 .nav-btn {
@@ -346,6 +362,7 @@ input:focus {
     transition: all .2s ease;
     min-width: 70px;
     min-height: 60px;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .nav-btn:hover {
@@ -363,6 +380,7 @@ input:focus {
     font-size: 20px;
     line-height: 1;
     transition: transform .2s ease;
+    display: block;
 }
 
 .nav-btn.active .nav-icon {
@@ -374,6 +392,7 @@ input:focus {
     font-weight: 500;
     line-height: 1.2;
     text-align: center;
+    display: block;
 }
 
 /* BACKGROUND ANIMATION */
