@@ -10,23 +10,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <link rel="stylesheet" href="style.css?v=251">
+    <link rel="stylesheet" href="style.css?v=260">
 </head>
 
 <body>
 
 <!-- ☀️ СОЛНЦЕ ФОН -->
-<div class="sun-bg"></div>
+<div class="sun-bg" id="sun-bg"></div>
 
 <div class="page">
     <div class="app">
 
-        <!-- ☀️ КНОПКА СОЛНЦА -->
-        <button class="sun-icon active" onclick="toggleSun()" title="Эффекты">
-            ☀️
+        <!-- ☀️ КНОПКА ЭФФЕКТОВ -->
+        <button class="sun-icon active" id="sun-toggle-btn" onclick="toggleSun()" title="Эффекты">
+            ✨
         </button>
 
-        <h1>📊 Telegram Parser</h1>
+        <!-- Заголовок без эмодзи-иконки -->
+        <h1>Telegram Parser</h1>
         <p class="subtitle">Выбери режим и вставь ссылку</p>
 
         <!-- 📁 ВЫБОР ФОРМАТА ФАЙЛА -->
@@ -83,6 +84,6 @@
     </button>
 </div>
 
-<script src="app.js?v=summer"></script>
+<script src="app.js?v=summer2"></script>
 </body>
 </html>
