@@ -2,8 +2,8 @@ const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
 
-const sunContainer = document.querySelector(".sun-bg");
-const sunIcon = document.querySelector(".sun-icon");
+const sunContainer = document.getElementById("sun-bg");
+const sunIcon = document.getElementById("sun-toggle-btn");
 
 let sunEnabled = true;
 let currentMode = 'participants';
@@ -12,20 +12,21 @@ let selectedFormats = ['csv', 'txt'];
 /* ☀️ СОЗДАНИЕ СОЛНЕЧНОГО ЛУЧА */
 function spawnSunRay() {
     if (!sunEnabled) return;
+    if (!sunContainer) return;
 
     const ray = document.createElement("div");
     ray.className = "sun-ray";
 
-    const size = 60 + Math.random() * 120;
-    const duration = 8 + Math.random() * 12;
-    const opacity = 0.1 + Math.random() * 0.25;
+    const size = 80 + Math.random() * 150;
+    const duration = 10 + Math.random() * 15;
+    const opacity = 0.15 + Math.random() * 0.3;
 
     const colors = [
         'rgba(255, 159, 67,',
         'rgba(255, 107, 107,',
         'rgba(254, 202, 87,',
-        'rgba(72, 219, 251,',
-        'rgba(255, 159, 243,'
+        'rgba(102, 126, 234,',
+        'rgba(240, 147, 251,'
     ];
     const color = colors[Math.floor(Math.random() * colors.length)];
 
@@ -38,20 +39,30 @@ function spawnSunRay() {
 
     sunContainer.appendChild(ray);
 
-    setTimeout(() => ray.remove(), duration * 1000);
+    setTimeout(() => {
+        if (ray.parentNode) ray.remove();
+    }, duration * 1000);
 }
 
 /* ☀️ ИНТЕРВАЛ */
-setInterval(spawnSunRay, 400);
+const sunInterval = setInterval(spawnSunRay, 500);
 
 /* ☀️ ВКЛ / ВЫКЛ ЭФФЕКТОВ */
 function toggleSun() {
     sunEnabled = !sunEnabled;
 
-    sunContainer.style.display = sunEnabled ? "block" : "none";
+    if (sunContainer) {
+        sunContainer.style.display = sunEnabled ? "block" : "none";
+    }
 
     if (sunIcon) {
         sunIcon.classList.toggle("active", sunEnabled);
+        sunIcon.textContent = sunEnabled ? "✨" : "💤";
+    }
+
+    // Очистить существующие лучи если выключили
+    if (!sunEnabled && sunContainer) {
+        sunContainer.innerHTML = '';
     }
 
     if (tg.HapticFeedback) {
@@ -75,10 +86,12 @@ function setMode(mode) {
     }
 
     const hintText = document.getElementById('hint-text');
-    if (mode === 'participants') {
-        hintText.textContent = 'Ты должен быть администратором канала для парсинга участников';
-    } else {
-        hintText.textContent = 'Собирает активных пользователей из комментариев и сообщений';
+    if (hintText) {
+        if (mode === 'participants') {
+            hintText.textContent = 'Ты должен быть администратором канала для парсинга участников';
+        } else {
+            hintText.textContent = 'Собирает активных пользователей из комментариев и сообщений';
+        }
     }
 
     if (tg.HapticFeedback) {
@@ -98,12 +111,14 @@ function updateFormatSelection() {
     if (jsonChecked) selectedFormats.push('json');
 
     const btn = document.querySelector('.glow-btn');
-    if (selectedFormats.length === 0) {
-        btn.disabled = true;
-        btn.textContent = '⚠️ Выберите формат файла';
-    } else {
-        btn.disabled = false;
-        btn.textContent = '🚀 Начать парсинг';
+    if (btn) {
+        if (selectedFormats.length === 0) {
+            btn.disabled = true;
+            btn.textContent = '⚠️ Выберите формат файла';
+        } else {
+            btn.disabled = false;
+            btn.textContent = '🚀 Начать парсинг';
+        }
     }
 
     if (tg.HapticFeedback) {
@@ -135,25 +150,4 @@ function sendLink() {
         formats: selectedFormats
     };
 
-    tg.sendData(JSON.stringify(data));
-}
-
-/* ℹ️ ЗАГЛУШКА */
-function showComingSoon() {
-    const error = document.getElementById("error");
-    error.textContent = "ℹ️ Эта функция в разработке";
-
-    setTimeout(() => {
-        error.textContent = "";
-    }, 2000);
-
-    if (tg.HapticFeedback) {
-        tg.HapticFeedback.notificationOccurred("warning");
-    }
-}
-
-// Инициализация
-document.addEventListener('DOMContentLoaded', function() {
-    setMode('participants');
-    updateFormatSelection();
-});
+    tg.sendData
