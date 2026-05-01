@@ -2,50 +2,56 @@ const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
 
-const snowContainer = document.querySelector(".snow-bg");
-const snowIcon = document.querySelector(".snow-icon");
+const sunContainer = document.querySelector(".sun-bg");
+const sunIcon = document.querySelector(".sun-icon");
 
-let snowEnabled = true;
+let sunEnabled = true;
 let currentMode = 'participants';
 let selectedFormats = ['csv', 'txt'];
 
-/* ❄️ СОЗДАНИЕ СНЕЖИНКИ */
-function spawnSnowflake() {
-    if (!snowEnabled) return;
+/* ☀️ СОЗДАНИЕ СОЛНЕЧНОГО ЛУЧА */
+function spawnSunRay() {
+    if (!sunEnabled) return;
 
-    const flake = document.createElement("div");
-    flake.className = "snowflake";
+    const ray = document.createElement("div");
+    ray.className = "sun-ray";
 
-    const size = 4 + Math.random() * 6;
-    const duration = 12 + Math.random() * 10;
-    const opacity = 0.25 + Math.random() * 0.4;
-    const blur = Math.random() * 1.5;
-    const sway = (Math.random() * 40 - 20) + "px";
+    const size = 60 + Math.random() * 120;
+    const duration = 8 + Math.random() * 12;
+    const opacity = 0.1 + Math.random() * 0.25;
 
-    flake.style.left = Math.random() * 100 + "vw";
-    flake.style.setProperty("--size", size + "px");
-    flake.style.setProperty("--opacity", opacity);
-    flake.style.setProperty("--blur", blur + "px");
-    flake.style.setProperty("--sway", sway);
-    flake.style.animationDuration =
-        duration + "s, " + (4 + Math.random() * 4) + "s";
+    const colors = [
+        'rgba(255, 159, 67,',
+        'rgba(255, 107, 107,',
+        'rgba(254, 202, 87,',
+        'rgba(72, 219, 251,',
+        'rgba(255, 159, 243,'
+    ];
+    const color = colors[Math.floor(Math.random() * colors.length)];
 
-    snowContainer.appendChild(flake);
+    ray.style.width = size + "px";
+    ray.style.height = size + "px";
+    ray.style.background = color + opacity + ")";
+    ray.style.left = Math.random() * 100 + "vw";
+    ray.style.top = Math.random() * 100 + "vh";
+    ray.style.animationDuration = duration + "s";
 
-    setTimeout(() => flake.remove(), duration * 1000);
+    sunContainer.appendChild(ray);
+
+    setTimeout(() => ray.remove(), duration * 1000);
 }
 
-/* ❄️ ИНТЕРВАЛ */
-setInterval(spawnSnowflake, 220);
+/* ☀️ ИНТЕРВАЛ */
+setInterval(spawnSunRay, 400);
 
-/* ❄️ ВКЛ / ВЫКЛ СНЕГА (ИКОНКА) */
-function toggleSnow() {
-    snowEnabled = !snowEnabled;
+/* ☀️ ВКЛ / ВЫКЛ ЭФФЕКТОВ */
+function toggleSun() {
+    sunEnabled = !sunEnabled;
 
-    snowContainer.style.display = snowEnabled ? "block" : "none";
+    sunContainer.style.display = sunEnabled ? "block" : "none";
 
-    if (snowIcon) {
-        snowIcon.classList.toggle("active", snowEnabled);
+    if (sunIcon) {
+        sunIcon.classList.toggle("active", sunEnabled);
     }
 
     if (tg.HapticFeedback) {
@@ -57,21 +63,17 @@ function toggleSnow() {
 function setMode(mode) {
     currentMode = mode;
 
-    // Обновляем активную кнопку в нижней панели
     document.querySelectorAll('.nav-btn').forEach(btn => {
-        // Сбрасываем active только у кнопок режимов (первые две)
         if (btn.id === 'nav-participants' || btn.id === 'nav-commentators') {
             btn.classList.remove('active');
         }
     });
 
-    // Устанавливаем active на выбранную кнопку
     const activeBtn = document.getElementById(`nav-${mode}`);
     if (activeBtn) {
         activeBtn.classList.add('active');
     }
 
-    // Обновляем текст подсказки
     const hintText = document.getElementById('hint-text');
     if (mode === 'participants') {
         hintText.textContent = 'Ты должен быть администратором канала для парсинга участников';
@@ -95,7 +97,6 @@ function updateFormatSelection() {
     if (txtChecked) selectedFormats.push('txt');
     if (jsonChecked) selectedFormats.push('json');
 
-    // Хотя бы один формат должен быть выбран
     const btn = document.querySelector('.glow-btn');
     if (selectedFormats.length === 0) {
         btn.disabled = true;
@@ -128,7 +129,6 @@ function sendLink() {
         return;
     }
 
-    // Формируем JSON с данными
     const data = {
         link: link,
         mode: currentMode,
@@ -138,7 +138,7 @@ function sendLink() {
     tg.sendData(JSON.stringify(data));
 }
 
-/* ℹ️ ЗАГЛУШКА ДЛЯ НЕАКТИВНЫХ КНОПОК */
+/* ℹ️ ЗАГЛУШКА */
 function showComingSoon() {
     const error = document.getElementById("error");
     error.textContent = "ℹ️ Эта функция в разработке";
