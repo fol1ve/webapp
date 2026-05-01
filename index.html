@@ -3,34 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Telegram Parser</title>
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-    <link rel="stylesheet" href="style.css?v=260">
+    <link rel="stylesheet" href="style.css?v=261">
 </head>
-
 <body>
 
-<!-- ☀️ СОЛНЦЕ ФОН -->
-<div class="sun-bg" id="sun-bg"></div>
+<!-- ЭФФЕКТЫ ФОН -->
+<div class="effects-bg" id="effects-bg"></div>
 
 <div class="page">
     <div class="app">
 
-        <!-- ☀️ КНОПКА ЭФФЕКТОВ -->
-        <button class="sun-icon active" id="sun-toggle-btn" onclick="toggleSun()" title="Эффекты">
-            ✨
+        <!-- ПЕРЕКЛЮЧАТЕЛЬ ЭФФЕКТОВ -->
+        <button class="effects-toggle active" id="effects-btn" onclick="toggleEffects()" title="Эффекты">
+            <span class="effects-icon" id="effects-icon">✨</span>
         </button>
 
-        <!-- Заголовок без эмодзи-иконки -->
-        <h1>Telegram Parser</h1>
+        <!-- ЗАГОЛОВОК С ИКОНКОЙ -->
+        <div class="header-row">
+            <span class="app-icon">🤖</span>
+            <h1>Telegram Parser</h1>
+        </div>
+
         <p class="subtitle">Выбери режим и вставь ссылку</p>
 
-        <!-- 📁 ВЫБОР ФОРМАТА ФАЙЛА -->
+        <!-- ФОРМАТ -->
         <div class="format-section">
             <p class="format-label">📁 Формат выгрузки:</p>
             <div class="format-selector">
@@ -64,7 +63,7 @@
     </div>
 </div>
 
-<!-- 🔄 НИЖНЯЯ ПАНЕЛЬ С РЕЖИМАМИ -->
+<!-- НИЖНЯЯ ПАНЕЛЬ -->
 <div class="bottom-bar">
     <button class="nav-btn active" id="nav-participants" onclick="setMode('participants')">
         <span class="nav-icon">👥</span>
@@ -84,6 +83,6 @@
     </button>
 </div>
 
-<script src="app.js?v=summer2"></script>
+<script src="app.js?v=3"></script>
 </body>
 </html>
